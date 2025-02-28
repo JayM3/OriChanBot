@@ -57,26 +57,6 @@ def createReplyEmbed(description,TokensUsed, PersonaName):
     embed.set_footer(text=footer_text, icon_url=footer_icon)
     embed.set_image(url=dividerImg)
     return embed
-def createDailyEmbed(description):
-    # Set the color, thumbnail, and footer of the embed
-    color = 0x5C0E80
-    footer_text = "Ori-chan & Friends."
-    footer_icon = "https://media.discordapp.net/attachments/1054984334878191636/1058809695130890326/image.png"
-    # Create the embed
-    embed = discord.Embed(title="🌞Daily!🌞", description=description, color=color)
-    embed.set_footer(text=footer_text, icon_url=footer_icon)
-    embed.set_image(url=dividerImg)
-    return embed
-def createLeaderboardEmbed(title,description):
-    # Set the color, thumbnail, and footer of the embed
-    color = 0x5C0E80
-    footer_text = "Ori-chan & Friends."
-    footer_icon = "https://media.discordapp.net/attachments/1054984334878191636/1058809695130890326/image.png"
-    # Create the embed
-    embed = discord.Embed(title=title, description=description, color=color)
-    embed.set_footer(text=footer_text, icon_url=footer_icon)
-    embed.set_image(url=dividerImg)
-    return embed
 def createUserInfoEmbed(username,userid, userthumbnail):
     # Set the color, thumbnail, and footer of the embed
     color = 0x5C0E80
@@ -616,28 +596,6 @@ class MainClass(commands.Cog):
             user.role=role
             user.save_to_database()
             await ctx.message.reply(f'User: {member}\'s role is now: {role}!')
-        except Exception as e:
-            print(e)
-    @commands.command(aliases=['bt','leaderboard'])
-    async def baltop(self, ctx):
-        try:
-            conn = sqlite3.connect(DB)
-            cursor = conn.cursor()
-            cursor.execute('''
-                SELECT ID, tokensBalance
-                FROM users
-                ORDER BY tokensBalance DESC
-                LIMIT 10
-            ''')
-            message =""
-            top=1
-            for row in cursor:
-                message += f'{top}). {row[1]} OriCoins\n╰⊸¤⊱ <@{row[0]}>\n'
-                top+=1
-            message+="\n***Want to earn more OriCoins? Donate or do your dailies!***"
-            embedToSend=createLeaderboardEmbed("🏆**TOP 10 OriCoins Balance!**🏆", message)
-            await ctx.message.reply(embed=embedToSend)
-            conn.close()
         except Exception as e:
             print(e)
     @commands.command()
