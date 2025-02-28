@@ -465,20 +465,6 @@ class MainClass(commands.Cog):
                 await ctx.message.reply(embed=embedToSend)
         except Exception as e:
             print(e)
-    @commands.command(aliases=['bal','balance','money'])
-    async def info(self,ctx):
-        try:
-            if user_exists(ctx.author.id):
-                user=ObjectClasses.User(ctx.author.id)
-            else:
-                user=ObjectClasses.User(ctx.author.id,25000,"freeRole",0)
-                user.save_to_database()
-            userThumbnail=ctx.message.author.avatar.url
-            userid=ctx.author.id
-            embedToSend=createUserInfoEmbed(f"{str(ctx.message.author)[:-5]}",userid, userThumbnail)
-            await ctx.message.reply(embed=embedToSend)
-        except Exception as e:
-            print(e)
     
     @commands.command()
     async def giveAdmin(self,ctx,member:discord.Member, bal:int):

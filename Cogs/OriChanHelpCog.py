@@ -1,4 +1,5 @@
-import discord, asyncio
+import discord, asyncio, ObjectClasses
+from Cogs.OriChanMain import user_exists
 from discord.ext import commands
 from discord import app_commands
 class HelpDropdown(discord.ui.Select):
@@ -41,7 +42,7 @@ class HelpCog(commands.Cog):
         # --- General Category ---
         general_commands = {
             "/help": "Shows this help menu.",
-            "ori!info (ori!bal, ori!balance, ori!money)": "Shows your balance and other information.",
+            "/balance": "Shows your balance and other information.",
             "ori!daily (ori!d)": "Claim your daily OriCoin reward.",
             "ori!baltop (ori!leaderboard, ori!bt)": "Shows the top 10 OriCoin leaderboard.",
             "ori!donate": "Information on how to donate and support Ori-chan.",
@@ -88,6 +89,9 @@ class HelpCog(commands.Cog):
 
     @app_commands.command(name="help", description="Shows the help menu.")
     async def help(self, interaction: discord.Interaction):
+        if not user_exists(interaction.user.id):
+            userToGive=ObjectClasses.User(interaction.user.id,25000,"freeRole",0)
+            userToGive.save_to_database()
         is_owner = await self.bot.is_owner(interaction.user)
         if not is_owner:
             # Remove Developer category for non-owners

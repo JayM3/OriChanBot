@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 from discord import app_commands
 import ObjectClasses
-
+from Cogs.OriChanMain import createUserInfoEmbed, user_exists
 class PersonaButtonView(discord.ui.View):
     def __init__(self, personas, cog, interaction):
         super().__init__(timeout=60)
@@ -135,7 +135,22 @@ class OriChanCommandsCog(commands.Cog):
                 ephemeral=True
             )
             view.message = message
+            
+    @app_commands.command(name="balance", description="Shows your balance and user information.")
+    async def balance_command(self, interaction: discord.Interaction):
+        await interaction.response.defer(ephemeral=True) # Defer to handle longer operations
+        if not user_exists(interaction.user.id):
+            userToGive=ObjectClasses.User(interaction.user.id,25000,"freeRole",0)
+            userToGive.save_to_database()
+        user = ObjectClasses.User(interaction.user.id)
+        
+        user_thumbnail = interaction.user.avatar.url
+        username = str(interaction.user)[:-5]
+        userid = interaction.user.id
 
+        embed_to_send = createUserInfoEmbed(username, userid, user_thumbnail) # Call the function to create the embed
+
+        await interaction.followup.send(embed=embed_to_send, ephemeral=True) # Send the embed as a followup, ephemerally
 
 async def setup(bot):
     await bot.add_cog(OriChanCommandsCog(bot))
