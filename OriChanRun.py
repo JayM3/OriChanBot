@@ -1,8 +1,11 @@
 # Version: 1.1
 # Date: 1/24/2023
 import discord, os,asyncio
-from discord.ext.commands import Bot
+from discord.ext.commands import Bot, Context
 from discord.ext import commands
+from discord.utils import setup_logging
+
+import logging
 
 intents = discord.Intents.default()
 intents.members = True
@@ -12,10 +15,13 @@ intents.message_content=True
 
 class OriChan(Bot):
     def __init__(self):
+        setup_logging()
+        self.logger = logging.getLogger('OriChan')
         super().__init__(command_prefix=['ori!','Ori!'], intents=intents, help_command=None)
     
     async def setup_hook(self):
         await load(self)
+
 
 def loadData():
     KEYS={}
@@ -45,10 +51,11 @@ bot = OriChan()
 
 @bot.command(description='Reloads relevant cogs.', aliases=['re'])
 @commands.is_owner()
-async def sync(ctx):
+async def sync(ctx:Context):
     await ctx.message.delete()
     synced = await bot.tree.sync()
     print(f"Synced {len(synced)} command(s).")
+
     for filename in os.listdir('./Cogs'):
         if filename.endswith('.py'):
             await bot.reload_extension(f'Cogs.{filename[:-3]}')
