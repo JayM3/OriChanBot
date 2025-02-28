@@ -412,39 +412,6 @@ class MainClass(commands.Cog):
                 msg = await message.reply(content=f'There was an error while processing your message.\nCauses for this might be server congestions at the AI servers.\nOr the persona has taken too much time processing your message.')
                 await asyncio.sleep(5)
                 await msg.delete()
-
-    @commands.command()
-    async def daily(self,ctx):
-        try:
-            if user_exists(ctx.author.id):
-                user=ObjectClasses.User(ctx.author.id)
-            else:
-                user=ObjectClasses.User(ctx.author.id,25000,"freeRole",0)
-                user.save_to_database()
-            foo=None
-            if user.dailyStreak == 0:
-                foo=1
-            else:
-                foo=2
-            if user.DoDaily():
-                user.save_to_database()
-                roleInfo=user.getRoleInfo()
-                if foo==2:
-                    embedToSend=createDailyEmbed(f"**Nice!**\nYou just got: {roleInfo['BaseDaily']+(roleInfo['StreakBonus']*user.dailyStreak)} OriCoins!\nYour current balance is: {user.tokensBalance} OriCoins")
-                else:
-                    embedToSend=createDailyEmbed(f"**Nice!**\nYou just got: {roleInfo['BaseDaily']} OriCoins!\nYour current balance is: {user.tokensBalance} OriCoins")
-                await ctx.message.reply(embed=embedToSend)
-            else:
-                now=datetime.now()
-                FutureDaily=user.lastDaily+dt.timedelta(hours=24)
-                diff=FutureDaily-now
-                diffSeconds=diff.total_seconds()
-                minutes, seconds = divmod(diffSeconds, 60)
-                hours, minutes = divmod(minutes, 60)
-                embedToSend=createWarnEmbed(f"You can't do a daily right now!\nTry again in {hours} hour(s) {minutes} minute(s)!")
-                await ctx.message.reply(embed=embedToSend)
-        except Exception as e:
-            print(e)
     
     @commands.command()
     async def giveAdmin(self,ctx,member:discord.Member, bal:int):
