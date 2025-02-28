@@ -438,7 +438,7 @@ class MainClass(commands.Cog):
     @commands.is_owner()
     async def reExt(self, ctx):
         await ctx.message.delete()
-        synced = await bot.tree.sync(guild=ctx.guild)
+        synced = await bot.tree.sync()
         print(f"Synced {len(synced)} command(s).")
         for filename in os.listdir('./Cogs'):
             if filename.endswith('.py'):
