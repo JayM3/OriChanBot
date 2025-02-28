@@ -48,10 +48,10 @@ Here's a quick overview of OriChan's commands:
 
 | Command                                  | Aliases                                | Description                                                                 |
 |------------------------------------------|----------------------------------------|-----------------------------------------------------------------------------|
-| `/help`                                 | `ori!help`                             | Shows the help menu with command information.                               |
-| `/balance`                               | `ori!balance`                          | Displays your OriCoin balance and user information.                          |
-| `ori!baltop`                             | `ori!leaderboard`, `ori!bt`           | Shows the top 10 users with the highest OriCoin balances.                   |
-| `ori!daily`                              | `ori!d`                                | Claims your daily OriCoin reward.                                          |
+| `/help`                                 | `NONE`                             | Shows the help menu with command information.                               |
+| `/balance`                               | `NONE`                          | Displays your OriCoin balance and user information.                          |
+| `/baltop`                             | `NONE`           | Shows the top 10 users with the highest OriCoin balances.                   |
+| `/daily`                              | `NONE`                                | Claims your daily OriCoin reward.                                          |
 | `ori!donate`                             |                                        | Provides information on how to donate and support OriChan.                  |
 | `ori!give <@user> <amount>`               | `ori!transfer`, `ori!t`, `ori!g`     | Transfers OriCoins to another user.                                      |
 | `/changepersona [Persona Name]`          |                                        | Changes your active persona. Persona name is optional for browsing.         |

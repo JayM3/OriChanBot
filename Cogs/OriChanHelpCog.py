@@ -43,8 +43,8 @@ class HelpCog(commands.Cog):
         general_commands = {
             "/help": "Shows this help menu.",
             "/balance": "Shows your balance and other information.",
-            "ori!daily (ori!d)": "Claim your daily OriCoin reward.",
-            "ori!baltop (ori!leaderboard, ori!bt)": "Shows the top 10 OriCoin leaderboard.",
+            "/daily": "Claim your daily OriCoin reward.",
+            "/baltop": "Shows the top 10 OriCoin leaderboard.",
             "ori!donate": "Information on how to donate and support Ori-chan.",
             "ori!give (ori!transfer, ori!t, ori!g) <@user> <amount>": "Transfer OriCoins to another user.",
         }
