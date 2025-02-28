@@ -1,5 +1,7 @@
-openai-async
-
-openai==0.28
+openai
 
 discord.py
+
+pypdf
+
+python-docx
