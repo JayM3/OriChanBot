@@ -1,4 +1,4 @@
-import discord
+import discord, asyncio
 from discord.ext import commands
 from discord import app_commands
 class HelpDropdown(discord.ui.Select):
@@ -99,7 +99,7 @@ class HelpCog(commands.Cog):
                 self.populate_help_categories() # Repopulate to include developer commands
         initial_category = "General" # Default category to show first
         view = HelpView(self.category_pages)
-        await interaction.response.send_message(embed=self.category_pages[initial_category]['embed'], view=view, ephemeral=True)
+        HelpInteraction = await interaction.response.send_message(embed=self.category_pages[initial_category]['embed'], view=view, ephemeral=True)
 
 
 async def setup(bot):
