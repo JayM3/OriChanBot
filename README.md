@@ -22,6 +22,8 @@ Welcome to OriChan, a fun and engaging Discord bot that brings AI-powered conver
 ## Getting Started
 
 Using OriChan is easy! Here's how to get started:
+- **Create Necessary Files First:** Create a Data folder in the same directory as OriChanRun.py with two files: APIKeys.txt (Your Google Gemini API Key) and BotToken.txt (Your Discord Bot Token)
+- **You can change which AI model you want to use, but on default it's Google Gemini 2.0 Flash Exp**
 
 1. **Invite OriChan to your server:** (Invite link would be placed here if this was a distributable bot)
 2. **Start a conversation:**
