@@ -8,7 +8,7 @@ intents = discord.Intents.default()
 intents.members = True
 intents.guilds = True
 intents.message_content=True
-
+bot = commands.Bot(command_prefix=['ori!','Ori!'], intents=intents, help_command=None)
 def loadData():
     KEYS={}
     for filename in os.listdir('./Data'):
@@ -34,7 +34,7 @@ async def load():
 
 
 async def main():
-    bot = commands.Bot(command_prefix=['ori!','Ori!'], intents=intents, help_command=None)
+    
     Data=loadData()
     APIKeysString=""
     Count=1
