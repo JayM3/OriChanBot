@@ -87,7 +87,7 @@ class HelpCog(commands.Cog):
 
 
     @app_commands.command(name="help", description="Shows the help menu.")
-    async def skibidi(self, interaction: discord.Interaction):
+    async def help(self, interaction: discord.Interaction):
         is_owner = await self.bot.is_owner(interaction.user)
         if not is_owner:
             # Remove Developer category for non-owners
