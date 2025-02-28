@@ -1,0 +1,5 @@
+openai-async
+
+openai==0.28
+
+discord.py
