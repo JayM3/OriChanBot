@@ -5,6 +5,7 @@ __pycache__/
 
 APIKeys.txt
 BotToken.txt
+main.db
 # C extensions
 *.so
 

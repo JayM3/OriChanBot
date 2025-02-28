@@ -2,6 +2,7 @@
 # Date: 1/24/2023
 import discord, os,asyncio
 from discord.ext.commands import Bot
+from discord.ext import commands
 
 intents = discord.Intents.default()
 intents.members = True
@@ -43,6 +44,7 @@ bot = OriChan()
 
 
 @bot.command(description='Reloads relevant cogs.', aliases=['re'])
+@commands.is_owner()
 async def sync(ctx):
     await ctx.message.delete()
     synced = await bot.tree.sync()
