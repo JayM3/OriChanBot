@@ -3,8 +3,8 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-Data/APIKeys.txt
-Data/BotToken.txt
+APIKeys.txt
+BotToken.txt
 # C extensions
 *.so
 
