@@ -1,14 +1,21 @@
 # Version: 1.1
 # Date: 1/24/2023
 import discord, os,asyncio
-from discord.ext import commands
-from Cogs import OriChanMain
+from discord.ext.commands import Bot
 
 intents = discord.Intents.default()
 intents.members = True
 intents.guilds = True
 intents.message_content=True
-bot = commands.Bot(command_prefix=['ori!','Ori!'], intents=intents, help_command=None)
+
+
+class OriChan(Bot):
+    def __init__(self):
+        super().__init__(command_prefix=['ori!','Ori!'], intents=intents, help_command=None)
+    
+    async def setup_hook(self):
+        await load(self)
+
 def loadData():
     KEYS={}
     for filename in os.listdir('./Data'):
@@ -25,31 +32,26 @@ def loadData():
     return KEYS
 
 
-async def load():
+async def load(bot:Bot):
     for filename in os.listdir('./Cogs'):
         if filename.endswith('.py'):
             await bot.load_extension(f'Cogs.{filename[:-3]}')
             print(f"[x]: Cog Loaded: Cogs.{filename[:-3]}")
 
 
-
-async def main():
-    
-    Data=loadData()
-    APIKeysString=""
-    Count=1
-    for x in Data['APIKeys']:
-        APIKeysString+=f"\n[x]: {Count} > {(x)[-7:]}"
-        Count+=1
-    print(f"[x]: Loaded API Keys: {APIKeysString}\n[x]: Bot Token: {(Data['BotToken'])[-7:]}")
-
-    await load()
-    
-    await bot.start(Data['BotToken'])
-    
-    
+bot = OriChan()
 
 
-asyncio.run(main())
+@bot.command(description='Reloads relevant cogs.', aliases=['re'])
+async def sync(ctx):
+    await ctx.message.delete()
+    synced = await bot.tree.sync()
+    print(f"Synced {len(synced)} command(s).")
+    for filename in os.listdir('./Cogs'):
+        if filename.endswith('.py'):
+            await bot.reload_extension(f'Cogs.{filename[:-3]}')
+            print(f'[+]: Reloaded Cog: {filename[:-3]}')
 
 
+if __name__ == '__main__':
+    bot.run(loadData()['BotToken'])

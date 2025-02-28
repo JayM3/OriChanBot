@@ -2,12 +2,11 @@
 # Date: 2/26/2025
 import discord
 from discord.ext import commands
-import random,os,asyncio,sqlite3,OriChanRun, ObjectClasses
+import random,os,asyncio,sqlite3, ObjectClasses, OriChanRun
 from datetime import datetime
 import datetime as dt
 import asyncOpenAI, base64, aiohttp, io, docx
 from pypdf import PdfReader
-from OriChanRun import bot
 dividerImg="https://cdn.discordapp.com/attachments/1054984334878191636/1061806291091210320/image.png"
 DB='Database/Main.db'
 def user_exists(ID):
@@ -433,17 +432,7 @@ class MainClass(commands.Cog):
                 msg = await message.reply(content=f'There was an error while processing your message.\nCauses for this might be server congestions at the AI servers.\nOr the persona has taken too much time processing your message.')
                 await asyncio.sleep(5)
                 await msg.delete()
-    @commands.command(description='Reloads relevant cogs.', aliases=['re'])
 
-    @commands.is_owner()
-    async def reExt(self, ctx):
-        await ctx.message.delete()
-        synced = await bot.tree.sync()
-        print(f"Synced {len(synced)} command(s).")
-        for filename in os.listdir('./Cogs'):
-            if filename.endswith('.py'):
-                await self.bot.reload_extension(f'Cogs.{filename[:-3]}')
-                print(f'[+]: Reloaded Cog: {filename[:-3]}')
     @commands.command()
     async def daily(self,ctx):
         try:
