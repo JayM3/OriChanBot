@@ -262,7 +262,7 @@ class OriChanCommandsCog(commands.Cog):
     @app_commands.command(name="give", description="Transfer OriCoins to another user.")
     async def give_command(self, interaction: discord.Interaction, user: discord.User, amount: int):
         def createTransferEmbed(info):
-                
+            
             footer_text = "Ori-chan & Friends."
             footer_icon = "https://media.discordapp.net/attachments/1054984334878191636/1058809695130890326/image.png"
             color = 0x5C0E80
@@ -270,16 +270,16 @@ class OriChanCommandsCog(commands.Cog):
             embedToSend.set_footer(text=footer_text, icon_url=footer_icon)
             embedToSend.set_image(url=dividerImg)
             
-            return embedToSend
+            return embedToSend  
         class give_commandButtonView(discord.ui.View):
-            def __init__(self,userGiving, userReceiving,amount, interaction):
+            def __init__(self, cog, userGiving, userReceiving,amount, interaction):
                 super().__init__(timeout=30)
                 self.userGiving = userGiving
                 self.userReceiving = userReceiving
                 self.amount = amount
                 self.interaction_origin = interaction
                 self.message = None
-                
+                self.cog = cog
                 self.update_buttons()
             
             async def interaction_check(self, interaction: discord.Interaction) -> bool:
@@ -309,14 +309,14 @@ class OriChanCommandsCog(commands.Cog):
             
             async def confirm_button_callback(self, interaction: discord.Interaction):
                 
-                if userGiving.tokensBalance <= 34999:
+                if self.userGiving.tokensBalance <= 34999:
                     await interaction.response.edit_message(embed=createTransferEmbed("You can't give less than 35000 OriCoins!"), view=None)
                     for item in self.children:
                         self.remove_item(item)
                     self.stop()
                     return
                 else:
-                    if userGiving.tokensBalance < self.amount:
+                    if self.userGiving.tokensBalance < self.amount:
                         await interaction.response.edit_message(embed=createTransferEmbed("You don't have enough OriCoins to give!"), view=None)
                         for item in self.children:
                             self.remove_item(item)
@@ -326,9 +326,13 @@ class OriChanCommandsCog(commands.Cog):
                         self.userGiving.tokensBalance -= self.amount
                         self.userReceiving.tokensBalance += self.amount
                         
-                        await interaction.response.edit_message(embed=createTransferEmbed(f"Transaction successful!\nYou gave {self.amount} OriCoins to <@{userReceiving.ID}>."), view=None)
-                        userGiving.save_to_database()
-                        userReceiving.save_to_database()
+                        await interaction.response.edit_message(embed=createTransferEmbed(f"Transaction successful!\nYou gave {self.amount} OriCoins to <@{self.userReceiving.ID}>."), view=None)
+                        userReceivingDisc = self.cog.bot.get_user(self.userReceiving.ID)
+                        userGivingDisc = self.cog.bot.get_user(self.userGiving.ID)
+                        await userReceivingDisc.send(f"You received {self.amount} OriCoins from <@{self.userGiving.ID}>!")
+                        await userGivingDisc.send(f"You gave {self.amount} OriCoins to <@{self.userReceiving.ID}>!")
+                        self.userGiving.save_to_database()
+                        self.userReceiving.save_to_database()
                         for item in self.children:
                             self.remove_item(item)
                         self.stop()
@@ -338,9 +342,6 @@ class OriChanCommandsCog(commands.Cog):
                 for item in self.children:
                     self.remove_item(item)
                 self.stop()
-                
-                    
-           
         await interaction.response.defer(ephemeral=True)
         if not user_exists(interaction.user.id):
             userGiving=ObjectClasses.User(interaction.user.id,25000,"freeRole",0)
@@ -358,7 +359,7 @@ class OriChanCommandsCog(commands.Cog):
             await interaction.followup.send("You can't give OriCoins to yourself!", ephemeral=True)
             return
         else:
-            view = give_commandButtonView(userGiving, userReceiving, amount, interaction)
+            view = give_commandButtonView(self ,userGiving, userReceiving, amount, interaction)
             message = await interaction.followup.send(
                 embed=createTransferEmbed(f"Are you sure you want to give {amount} OriCoins to <@{user.id}>?"),
                 view=view,
