@@ -143,7 +143,7 @@ class MainClass(commands.Cog):
         return False
     @commands.Cog.listener()
     async def on_ready(self):
-        await self.bot.change_presence(status=discord.Status.online, activity=discord.Activity(type=discord.ActivityType.watching, name="Jay working on maintenance."))
+        await self.bot.change_presence(status=discord.Status.online, activity=discord.Activity(type=discord.ActivityType.playing, name="Commands: /help"))
         print(f"[+]: {self.bot.user.name} Main Cog is ready.")
     
     @commands.Cog.listener()
