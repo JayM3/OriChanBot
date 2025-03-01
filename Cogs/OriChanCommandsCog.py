@@ -38,7 +38,7 @@ class PersonaButtonView(discord.ui.View):
             self.remove_item(item)
             
         # Add new buttons
-        back_button = discord.ui.Button(label="Back", style=discord.ButtonStyle.secondary, custom_id="back", disabled=(self.current_index == 0))
+        back_button = discord.ui.Button(label="Back", style=discord.ButtonStyle.secondary, custom_id="back")
         back_button.callback = self.back_button_callback
         self.add_item(back_button)
         
@@ -46,17 +46,21 @@ class PersonaButtonView(discord.ui.View):
         select_button.callback = self.select_button_callback
         self.add_item(select_button)
         
-        next_button = discord.ui.Button(label="Next", style=discord.ButtonStyle.secondary, custom_id="next", disabled=(self.current_index == len(self.personas) - 1))
+        next_button = discord.ui.Button(label="Next", style=discord.ButtonStyle.secondary, custom_id="next")
         next_button.callback = self.next_button_callback
         self.add_item(next_button)
 
     def get_current_embed(self):
         persona_info = self.personas[self.current_index]
-        return self.cog.create_persona_embed(persona_info)
+        return self.cog.create_persona_embed(persona_info, self.current_index + 1, len(self.personas))
 
     async def back_button_callback(self, interaction: discord.Interaction):
         if self.current_index > 0:
             self.current_index -= 1
+            self.update_buttons()
+            await interaction.response.edit_message(embed=self.get_current_embed(), view=self)
+        elif self.current_index == 0:
+            self.current_index = len(self.personas) - 1
             self.update_buttons()
             await interaction.response.edit_message(embed=self.get_current_embed(), view=self)
 
@@ -73,14 +77,18 @@ class PersonaButtonView(discord.ui.View):
             self.current_index += 1
             self.update_buttons()
             await interaction.response.edit_message(embed=self.get_current_embed(), view=self)
+        elif self.current_index == len(self.personas) - 1:
+            self.current_index = 0
+            self.update_buttons()
+            await interaction.response.edit_message(embed=self.get_current_embed(), view=self)
 
 
 class OriChanCommandsCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    def create_persona_embed(self, persona_info):
-        embed = discord.Embed(title=f"Persona: {persona_info['Name']}", description=persona_info['Description'], color=0x5C0E80)
+    def create_persona_embed(self, persona_info, current_index, total_count):
+        embed = discord.Embed(title=f"({current_index}/{total_count}) Persona: {persona_info['Name']}", description=persona_info['Description'], color=0x5C0E80)
         embed.add_field(name="Collection", value=persona_info['Collection'], inline=False)
         embed.add_field(name="Introduction", value=persona_info['Introduction'], inline=False)
         embed.set_footer(text="Ori-chan & Friends.", icon_url="https://media.discordapp.net/attachments/1054984334878191636/1058809695130890326/image.png")
