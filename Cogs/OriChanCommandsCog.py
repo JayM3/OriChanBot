@@ -2,7 +2,7 @@ import discord, sqlite3
 from discord.ext import commands
 from discord import app_commands
 import ObjectClasses
-from Cogs.OriChanMain import createUserInfoEmbed, user_exists, createWarnEmbed
+from Cogs.OriChanMain import createUserInfoEmbed, user_exists, createWarnEmbed, createDonationEmbed
 from datetime import datetime
 import datetime as dt
 DB='Database/Main.db'
@@ -243,5 +243,16 @@ class OriChanCommandsCog(commands.Cog):
             hours, minutes = divmod(minutes, 60)
             embedToSend=createWarnEmbed(f"You can't do a daily right now!\nTry again in {hours} hour(s) {minutes} minute(s)!")
             await interaction.followup.send(embed=embedToSend, ephemeral=True)
+    
+    @app_commands.command(name="donate", description="Donate OriCoins to another user.")
+    async def donate_command(self, interaction: discord.Interaction):
+        await interaction.response.defer(ephemeral=True)
+        
+        if not user_exists(interaction.user.id):
+            userToGive=ObjectClasses.User(interaction.user.id,25000,"freeRole",0)
+            userToGive.save_to_database()
+            
+        embedToSend=createDonationEmbed()
+        await interaction.followup.send(embed=embedToSend, ephemeral=True)
 async def setup(bot):
     await bot.add_cog(OriChanCommandsCog(bot))

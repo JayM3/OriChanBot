@@ -565,12 +565,5 @@ class MainClass(commands.Cog):
             await ctx.message.reply(f'User: {member}\'s role is now: {role}!')
         except Exception as e:
             print(e)
-    @commands.command()
-    async def donate(self, ctx):
-        try:
-            embedToSend=createDonationEmbed()
-            await ctx.message.reply(embed=embedToSend)
-        except Exception as e:
-            print(e)
 async def setup(bot):
     await bot.add_cog(MainClass(bot))

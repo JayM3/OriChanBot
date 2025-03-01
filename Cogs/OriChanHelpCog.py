@@ -45,7 +45,7 @@ class HelpCog(commands.Cog):
             "/balance": "Shows your balance and other information.",
             "/daily": "Claim your daily OriCoin reward.",
             "/baltop": "Shows the top 10 OriCoin leaderboard.",
-            "ori!donate": "Information on how to donate and support Ori-chan.",
+            "/donate": "Information on how to donate and support Ori-chan.",
             "ori!give (ori!transfer, ori!t, ori!g) <@user> <amount>": "Transfer OriCoins to another user.",
         }
         general_embed = self.create_help_embed("General Commands", "These are general commands for Ori-chan usage.", general_commands)
