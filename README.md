@@ -69,6 +69,6 @@ Here's a quick overview of OriChan's commands:
 
 Need help or have questions? Feel free to ask in the server where OriChan is active!
 
-If you enjoy using OriChan and want to support its development, you can donate! Use the `ori!donate` command for more information and perks for donating. Your support helps keep OriChan running and improving!
+If you enjoy using OriChan and want to support its development, you can donate! Use the `/donate` command or visit our Ko-fi page (https://ko-fi.com/orichan) for more information and perks for donating. Your support helps keep OriChan running and improving!
 
 Thank you for using OriChan! We hope you enjoy your AI conversations!
