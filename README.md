@@ -54,7 +54,7 @@ Here's a quick overview of OriChan's commands:
 | `/balance`                               | `NONE`                          | Displays your OriCoin balance and user information.                          |
 | `/baltop`                             | `NONE`           | Shows the top 10 users with the highest OriCoin balances.                   |
 | `/daily`                              | `NONE`                                | Claims your daily OriCoin reward.                                          |
-| `ori!donate`                             |                                        | Provides information on how to donate and support OriChan.                  |
+| `/donate`                             | `NONE`                                       | Provides information on how to donate and support OriChan.                  |
 | `ori!give <@user> <amount>`               | `ori!transfer`, `ori!t`, `ori!g`     | Transfers OriCoins to another user.                                      |
 | `/changepersona [Persona Name]`          |                                        | Changes your active persona. Persona name is optional for browsing.         |
 | `ori!persona <persona name>`             | `ori!search`                           | Searches for a persona by name.                                            |
