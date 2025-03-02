@@ -261,7 +261,18 @@ class MainClass(commands.Cog):
                                                                     for paragraph in docx_reader.paragraphs:
                                                                         docx_text += paragraph.text
                                                                     msgContent.append({'type': "text", "text": f"The user has uploaded the following plain text file:\nFile name: {attachment.filename}\nCONTENT:\n{docx_text}"})
-                                                    
+                                                        elif attachment.content_type and attachment.content_type.startswith('audio/'):
+                                                            async with aiohttp.ClientSession() as session:
+                                                                async with session.get(attachment.url) as response:
+                                                                    audio_data = await response.read()
+                                                                    base64_audio = base64.b64encode(audio_data).decode('utf-8')
+                                                                    if attachment.filename.endswith('.mp3'):
+                                                                        msgContent.append({'type': "input_audio", "input_audio": {"data": base64_audio, "format": "mp3"}})
+                                                                    elif attachment.filename.endswith('.wav'):
+                                                                        msgContent.append({'type': "input_audio", "input_audio": {"data": base64_audio, "format": "wav"}})
+                                                                    else:
+                                                                        await message.reply(embed=createWarnEmbed("Please only upload mp3 or wav files!"), delete_after=5.0)
+                                                                        break
                                                     messages.append({"role": "user", "content": msgContent})
                                                     
                                                 else:
@@ -284,6 +295,7 @@ class MainClass(commands.Cog):
                                             else:
                                                 msgContent = [{'type': "text", "text": messageContent}]
                                             for attachment in message.attachments:
+                                                print(attachment.content_type)
                                                 if attachment.content_type and attachment.content_type.startswith('image/'):
                                                     async with aiohttp.ClientSession() as session:
                                                         async with session.get(attachment.url) as response:
@@ -318,6 +330,19 @@ class MainClass(commands.Cog):
                                                             for paragraph in docx_reader.paragraphs:
                                                                 docx_text += paragraph.text
                                                             msgContent.append({'type': "text", "text": f"The user has uploaded the following plain text file:\nFile name: {attachment.filename}\nCONTENT:\n{docx_text}"})
+                                                
+                                                elif attachment.content_type and attachment.content_type.startswith('audio/'):
+                                                    async with aiohttp.ClientSession() as session:
+                                                        async with session.get(attachment.url) as response:
+                                                            audio_data = await response.read()
+                                                            base64_audio = base64.b64encode(audio_data).decode('utf-8')
+                                                            if attachment.filename.endswith('.mp3'):
+                                                                msgContent.append({'type': "input_audio", "input_audio": {"data": base64_audio, "format": "mp3"}})
+                                                            elif attachment.filename.endswith('.wav'):
+                                                                msgContent.append({'type': "input_audio", "input_audio": {"data": base64_audio, "format": "wav"}})
+                                                            else:
+                                                                await message.reply(embed=createWarnEmbed("Please only upload mp3 or wav files!"), delete_after=5.0)
+                                                                break
                                             messages.append({"role": "user", "content": msgContent})
                                         else:
                                             messages.append({"role": "user", "content": messageContent})
