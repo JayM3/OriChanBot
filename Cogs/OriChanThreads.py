@@ -174,7 +174,7 @@ class ThreadCommands(commands.Cog):
 
                 while True:
                     try:
-                        msgInp = await self.bot.wait_for('message', timeout=300.0, check=check)
+                        msgInp = await self.bot.wait_for('message', timeout=900.0, check=check)
                     except Exception as e:
                         await theMessage.edit(embed=createWarnEmbed(f"Thread closed due to inactivity.\n[Click here to go to thread!]({theThread.jump_url})"))
                         await theThread.edit(locked=True, archived=True)
