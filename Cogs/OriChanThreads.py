@@ -139,7 +139,7 @@ class ThreadCommands(commands.Cog):
 
                 async with theThread.typing():
                     theKey=ObjectClasses.GetAKey()
-                    systemPrompt=((self.persona[persona]["Prompt"]).replace("[[JAYWASHERE123123JAYWASHERE]]", f"{str(ctx.author)[:-5]}")).replace("[[ARUHELPEDMELUL]]", f"*Walks in the room*\n\nEnd of Example conversation")
+                    systemPrompt=f'<System Prompt>\n{((self.persona[user.Persona]["Prompt"]).replace("[[JAYWASHERE123123JAYWASHERE]]", f"{str(ctx.author)}")).replace("[[ARUHELPEDMELUL]]", f"*walks in*\n\nEnd of example conversation.")}\n{self.persona[user.Persona]["Name"]} should always use {str(ctx.author)}\'s name in the conversation.\n<End System Prompt>\n{self.persona[user.Persona]["Name"]} is currently talking to: {str(ctx.author)}\nCurrent date (DD/MM/YYYY): {datetime.now().day}/{datetime.now().month}/{datetime.now().year}\n'
                     messages=[
                         {"role": "system", "content": systemPrompt},
                         {"role": "user", "content": "*Walks in the room*"}

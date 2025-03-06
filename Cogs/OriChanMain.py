@@ -213,7 +213,7 @@ class MainClass(commands.Cog):
                                     user.characterLimitUnlockCard -= 1
                                     user.save_to_database()
                                 async with message.channel.typing():
-                                    messages = [{"role": "system", "content": ((self.persona[user.Persona]["Prompt"]).replace("[[JAYWASHERE123123JAYWASHERE]]", f"{str(message.author)}")).replace("[[ARUHELPEDMELUL]]", f"*walks in*\n\nEnd of example conversation.")}]
+                                    messages = [{"role": "system", "content": f'<System Prompt>\n{((self.persona[user.Persona]["Prompt"]).replace("[[JAYWASHERE123123JAYWASHERE]]", f"{str(message.author)}")).replace("[[ARUHELPEDMELUL]]", f"*walks in*\n\nEnd of example conversation.")}\n{self.persona[user.Persona]["Name"]} should always use {str(message.author)}\'s name in the conversation.\n<End System Prompt>\n{self.persona[user.Persona]["Name"]} is currently talking to: {str(message.author)}\nCurrent date (DD/MM/YYYY): {datetime.now().day}/{datetime.now().month}/{datetime.now().year}\n'}]
                                     if message.reference!=None:
                                         messageReference = ObjectClasses.getMessage(message.reference.message_id)
                                         if messageReference[2] == ObjectClasses.Persona(user.Persona).Name:
