@@ -349,7 +349,7 @@ class MainClass(commands.Cog):
                                     promptToSend = messages                           
                                     theResponse=await asyncOpenAI.chat_complete(theKey, timeout=30, payload={'model': 'gemini-2.0-flash-exp',
                                                                                     "messages": promptToSend,
-                                                                                                             "temperature": 0.9,
+                                                                                                             "temperature": 1,
                                                                                                              "top_p":1,
                                                                                                              "max_completion_tokens": 4096})
 
@@ -389,7 +389,7 @@ class MainClass(commands.Cog):
                                                     theKey=ObjectClasses.GetAKey()
                                                     theResponse=await asyncOpenAI.chat_complete(theKey, timeout=30, payload={'model': 'gemini-2.0-flash-exp',
                                                                                     "messages": promptToSend,
-                                                                                                             "temperature":0.9,
+                                                                                                             "temperature":1,
                                                                                                              "top_p":1,
                                                                                                              "max_completion_tokens": 4096})
                                                     now = datetime.now().strftime("%H:%M:%S")

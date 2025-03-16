@@ -146,10 +146,9 @@ class ThreadCommands(commands.Cog):
                     ]
                     theResponse=await asyncOpenAI.chat_complete(theKey, timeout=30, payload={'model': 'gemini-2.0-flash-exp',
                                                                     'messages': messages,
-                                                                    'temperature': 0.9,
+                                                                    'temperature': 1,
                                                                     'top_p':1,
-                                                                    "max_completion_tokens": 4096}
-                                                                    )
+                                                                    "max_completion_tokens": 4096})
                     now = datetime.now().strftime("%H:%M:%S")
                     print(f"[{now}] - {theResponse}\nUsed key: {(theKey)[-7:]}\nTokens used: {theResponse.json()['usage']['total_tokens']}\nUser: {ctx.author} - {ctx.author.id}")
                     usedTokens=0
@@ -265,10 +264,9 @@ class ThreadCommands(commands.Cog):
                                         messages.append({"role": "user", "content": msgInp.content})
                                     theResponse=await asyncOpenAI.chat_complete(theKey, timeout=30, payload={'model': 'gemini-2.0-flash-exp',
                                                                                     'messages': messages,
-                                                                                    'temperature': 0.9,
+                                                                                    'temperature': 1,
                                                                                     'top_p':1,
-                                                                                    "max_completion_tokens": 4096}
-                                                                                    )
+                                                                                    "max_completion_tokens": 4096})
                                     now = datetime.now().strftime("%H:%M:%S")
                                     print(f"[{now}] - {theResponse}\nUsed key: {(theKey)[-7:]}\nTokens used: {theResponse.json()['usage']['total_tokens']}\nUser: {ctx.author} - {ctx.author.id}")
                                     usedTokens+=round(int(theResponse.json()['usage']['total_tokens'])*0.5)
